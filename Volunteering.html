@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Volunteers | Zero Hunger</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+<header><h1>Volunteer Registration</h1><p>Join the effort to reduce hunger</p></header>
+<nav>
+<a href="{{ url_for('dashboard') }}">Dashboard</a><a href="{{ url_for('donations') }}">Donations</a><a href="{{ url_for('Distribution') }}">Distribution</a><a href="{{ url_for('Volunteering') }}">Volunteers</a><a href="{{ url_for('Donate_to_needy') }}">Food Requests</a><a href="{{ url_for('Reports') }}">Reports</a><a href="{{ url_for('logout') }}">Logout</a>
+</nav>
+<main class="container">
+{% for category, message in get_flashed_messages(with_categories=true) %}<div class="message {{ category }}">{{ message }}</div>{% endfor %}
+<section class="panel"><h2>Register as a Volunteer</h2>
+<form method="POST" class="form-grid">
+<label>Full name<input name="name" required></label>
+<label>Phone number<input name="phone" type="tel" required></label>
+<label>Email<input name="email" type="email" required></label>
+<label>Area / locality<input name="area" required></label>
+<label>Availability<select name="availability" required><option value="">Select</option><option>Weekdays</option><option>Weekends</option><option>Any day</option></select></label>
+<button type="submit">Register Volunteer</button>
+</form></section>
+<section class="panel"><h2>Registered Volunteers</h2><input id="tableSearch" placeholder="Search volunteers...">
+<div class="table-wrap"><table id="dataTable"><thead><tr><th>Name</th><th>Phone</th><th>Email</th><th>Area</th><th>Availability</th></tr></thead>
+<tbody>{% for item in records %}<tr><td>{{ item.name }}</td><td>{{ item.phone }}</td><td>{{ item.email }}</td><td>{{ item.area }}</td><td>{{ item.availability }}</td></tr>{% else %}<tr><td colspan="5">No volunteers registered yet.</td></tr>{% endfor %}</tbody></table></div>
+</section></main>
+<script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>

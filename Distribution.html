@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Food Distribution | Zero Hunger</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+<header><h1>Food Distribution</h1><p>Record food delivered to recipients</p></header>
+<nav>
+<a href="{{ url_for('dashboard') }}">Dashboard</a><a href="{{ url_for('donations') }}">Donations</a><a href="{{ url_for('Distribution') }}">Distribution</a><a href="{{ url_for('Volunteering') }}">Volunteers</a><a href="{{ url_for('Donate_to_needy') }}">Food Requests</a><a href="{{ url_for('Reports') }}">Reports</a><a href="{{ url_for('logout') }}">Logout</a>
+</nav>
+<main class="container">
+{% for category, message in get_flashed_messages(with_categories=true) %}<div class="message {{ category }}">{{ message }}</div>{% endfor %}
+<section class="panel">
+<h2>Record a Distribution</h2>
+<form method="POST" class="form-grid">
+<label>Available donation<select name="donation_id" required><option value="">Select food</option>{% for item in available %}<option value="{{ item.id }}">{{ item.food_name }} — {{ item.quantity }} {{ item.unit }} available (ID {{ item.id }})</option>{% endfor %}</select></label>
+<label>Recipient name<input name="recipient" required></label>
+<label>Quantity to distribute<input type="number" name="quantity" min="1" required></label>
+<label>Delivery location<input name="location" required></label>
+<label>Distribution date<input type="date" name="distribution_date" required></label>
+<button type="submit">Save Distribution</button>
+</form>
+</section>
+<section class="panel">
+<h2>Distribution Records</h2><input id="tableSearch" placeholder="Search records...">
+<div class="table-wrap"><table id="dataTable">
+<thead><tr><th>ID</th><th>Food</th><th>Recipient</th><th>Quantity</th><th>Location</th><th>Date</th><th>Status</th></tr></thead>
+<tbody>{% for item in records %}<tr><td>{{ item.id }}</td><td>{{ item.food_name }}</td><td>{{ item.recipient }}</td><td>{{ item.quantity }}</td><td>{{ item.location }}</td><td>{{ item.distribution_date }}</td><td>{{ item.status }}</td></tr>{% else %}<tr><td colspan="7">No distribution records yet.</td></tr>{% endfor %}</tbody>
+</table></div>
+</section>
+</main>
+<script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>

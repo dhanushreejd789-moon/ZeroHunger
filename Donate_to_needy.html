@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Food Assistance Requests | Zero Hunger</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+
+    <!-- Header -->
+    <header>
+        <h1>🌱 Zero Hunger</h1>
+        <p>Food Assistance Request Management</p>
+    </header>
+
+    <!-- Navigation -->
+    <nav>
+        <a href="{{ url_for('dashboard') }}">Dashboard</a>
+        <a href="{{ url_for('donations') }}">Food Donations</a>
+        <a href="{{ url_for('Distribution') }}">Distribution</a>
+        <a href="{{ url_for('Volunteering') }}">Volunteering</a>
+        <a href="{{ url_for('Donate_to_needy') }}">Food Requests</a>
+        <a href="{{ url_for('Reports') }}">Reports</a>
+        <a href="{{ url_for('logout') }}">Logout</a>
+    </nav>
+
+    <main class="container">
+
+        <!-- Page Introduction -->
+        <section class="panel">
+            <h2>Request Food Assistance</h2>
+            <p>
+                This page helps individuals, families and organizations
+                submit requests for food support.
+            </p>
+        </section>
+
+        <!-- Success and Error Messages -->
+        {% for category, message in get_flashed_messages(with_categories=true) %}
+            <div class="message {{ category }}">
+                {{ message }}
+            </div>
+        {% endfor %}
+
+        <!-- Food Request Form -->
+        <section class="panel">
+
+            <h2>Food Assistance Form</h2>
+
+            <form method="POST" class="form-grid">
+
+                <label>
+                    Recipient Name / Organization
+                    <input
+                        type="text"
+                        name="recipient"
+                        placeholder="Enter recipient name"
+                        maxlength="100"
+                        required>
+                </label>
+
+                <label>
+                    Food Required
+                    <input
+                        type="text"
+                        name="food_required"
+                        placeholder="Rice, groceries, meals..."
+                        maxlength="200"
+                        required>
+                </label>
+
+                <label>
+                    Number of People
+                    <input
+                        type="number"
+                        name="people_count"
+                        min="1"
+                        required>
+                </label>
+
+                <label>
+                    Location
+                    <input
+                        type="text"
+                        name="location"
+                        placeholder="Enter area or locality"
+                        maxlength="200"
+                        required>
+                </label>
+
+                <label>
+                    Contact Phone
+                    <input
+                        type="tel"
+                        name="phone"
+                        placeholder="Enter contact number"
+                        maxlength="20"
+                        required>
+                </label>
+
+                <button type="submit">
+                    Submit Food Request
+                </button>
+
+            </form>
+
+        </section>
+
+        <!-- Submitted Requests Table -->
+        <section class="panel">
+
+            <h2>Submitted Food Requests</h2>
+
+            <p>
+                View the food assistance requests recorded in the system.
+            </p>
+
+            <input
+                type="search"
+                id="tableSearch"
+                placeholder="Search food requests..."
+                aria-label="Search food requests">
+
+            <div class="table-wrap">
+
+                <table id="dataTable">
+
+                    <thead>
+                        <tr>
+                            <th>Request ID</th>
+                            <th>Recipient</th>
+                            <th>Food Required</th>
+                            <th>People</th>
+                            <th>Location</th>
+                            <th>Contact</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+
+                        {% for item in records %}
+
+                        <tr>
+                            <td>{{ item.id }}</td>
+                            <td>{{ item.recipient }}</td>
+                            <td>{{ item.food_required }}</td>
+                            <td>{{ item.people_count }}</td>
+                            <td>{{ item.location }}</td>
+                            <td>{{ item.phone }}</td>
+                            <td>
+                                <span class="status-label">
+                                    {{ item.status }}
+                                </span>
+                            </td>
+                        </tr>
+
+                        {% else %}
+
+                        <tr>
+                            <td colspan="7" class="empty-state">
+                                No food assistance requests yet.
+                            </td>
+                        </tr>
+
+                        {% endfor %}
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </section>
+
+        <!-- Footer -->
+        <footer class="dashboard-footer">
+            <p>
+                Zero Hunger — Connecting food resources with people in need.
+            </p>
+        </footer>
+
+    </main>
+
+    <!-- JavaScript -->
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+
+</body>
+</html>
