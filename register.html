@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Zero Hunger | Register</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body class="auth-page">
+    <main class="auth-card">
+        <h1>Create Account</h1>
+        {% for category, message in get_flashed_messages(with_categories=true) %}
+            <div class="message {{ category }}">{{ message }}</div>
+        {% endfor %}
+        <form method="POST">
+            <label>Username</label>
+            <input name="username" required maxlength="50" autocomplete="username">
+            <label>Email</label>
+            <input type="email" name="email" required autocomplete="email">
+            <label>Password (minimum 8 characters)</label>
+            <input type="password" name="password" id="registerPassword" minlength="8" required autocomplete="new-password">
+            <button type="button" class="secondary" data-toggle-password="registerPassword">Show / Hide Password</button>
+            <label>Confirm Password</label>
+            <input type="password" name="confirm_password" required minlength="8" autocomplete="new-password">
+            <button type="submit">Register</button>
+        </form>
+        <p>Already registered? <a href="{{ url_for('index') }}">Login</a></p>
+    </main>
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>
