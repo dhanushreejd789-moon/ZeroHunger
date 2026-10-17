@@ -395,5 +395,8 @@ def logout():
     flash("You have logged out.", "success")
     return redirect(url_for("index"))
 
-
 init_db()
+
+if __name__ == "__main__":
+    app.run(debug=True)
+
