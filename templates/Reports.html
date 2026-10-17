@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Reports | Zero Hunger</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+<header><h1>Project Reports</h1><p>Summary of food donation activities</p></header>
+<nav>
+<a href="{{ url_for('dashboard') }}">Dashboard</a><a href="{{ url_for('donations') }}">Donations</a><a href="{{ url_for('Distribution') }}">Distribution</a><a href="{{ url_for('Volunteering') }}">Volunteers</a><a href="{{ url_for('Donate_to_needy') }}">Food Requests</a><a href="{{ url_for('Reports') }}">Reports</a><a href="{{ url_for('logout') }}">Logout</a>
+</nav>
+<main class="container">
+<section class="stats">
+<div class="stat"><h3>Total Donations</h3><p>{{ summary.total_donations }}</p></div>
+<div class="stat"><h3>Available Donations</h3><p>{{ summary.available }}</p></div>
+<div class="stat"><h3>Distribution Records</h3><p>{{ summary.distributed }}</p></div>
+<div class="stat"><h3>Volunteers</h3><p>{{ summary.volunteers }}</p></div>
+<div class="stat"><h3>Food Requests</h3><p>{{ summary.requests }}</p></div>
+</section>
+<section class="panel"><h2>Donation Report</h2>
+<div class="table-wrap"><table><thead><tr><th>ID</th><th>Donor</th><th>Food</th><th>Quantity</th><th>Status</th></tr></thead>
+<tbody>{% for item in donations_list %}<tr><td>{{ item.id }}</td><td>{{ item.donor }}</td><td>{{ item.food_name }}</td><td>{{ item.quantity }} {{ item.unit }}</td><td>{{ item.status }}</td></tr>{% else %}<tr><td colspan="5">No donation data.</td></tr>{% endfor %}</tbody></table></div>
+</section>
+<section class="panel"><h2>Distribution Report</h2>
+<div class="table-wrap"><table><thead><tr><th>Food</th><th>Recipient</th><th>Quantity</th><th>Date</th><th>Status</th></tr></thead>
+<tbody>{% for item in distribution_list %}<tr><td>{{ item.food_name }}</td><td>{{ item.recipient }}</td><td>{{ item.quantity }}</td><td>{{ item.distribution_date }}</td><td>{{ item.status }}</td></tr>{% else %}<tr><td colspan="5">No distribution data.</td></tr>{% endfor %}</tbody></table></div>
+</section>
+<section class="panel"><h2>Food Assistance Requests</h2>
+<div class="table-wrap"><table><thead><tr><th>Recipient</th><th>Food Required</th><th>People</th><th>Location</th><th>Status</th></tr></thead>
+<tbody>{% for item in request_list %}<tr><td>{{ item.recipient }}</td><td>{{ item.food_required }}</td><td>{{ item.people_count }}</td><td>{{ item.location }}</td><td>{{ item.status }}</td></tr>{% else %}<tr><td colspan="5">No food requests.</td></tr>{% endfor %}</tbody></table></div>
+</section>
+<button onclick="window.print()">Print / Save Report</button>
+</main>
+<script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>

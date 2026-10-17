@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Zero Hunger | Login</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body class="auth-page">
+    <main class="auth-card">
+        <h1>🌱 Zero Hunger</h1>
+        <p>Food Donation and Distribution Management System</p>
+        {% for category, message in get_flashed_messages(with_categories=true) %}
+            <div class="message {{ category }}">{{ message }}</div>
+        {% endfor %}
+        <h2>Login</h2>
+        <form method="POST">
+            <label>Username</label>
+            <input type="text" name="username" required autocomplete="username">
+            <label>Password</label>
+            <input type="password" name="password" id="loginPassword" required autocomplete="current-password">
+            <button type="button" class="secondary" data-toggle-password="loginPassword">Show / Hide Password</button>
+            <button type="submit">Login</button>
+        </form>
+        <p><a href="{{ url_for('forgot_password') }}">Forgot password?</a></p>
+        <p>Don't have an account? <a href="{{ url_for('register') }}">Register here</a></p>
+    </main>
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>

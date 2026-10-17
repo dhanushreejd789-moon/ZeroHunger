@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Food Donations | Zero Hunger</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+<header><h1>Food Donations</h1><p>Record surplus food to help others</p></header>
+<nav>
+<a href="{{ url_for('dashboard') }}">Dashboard</a>
+<a href="{{ url_for('donations') }}">Donations</a>
+<a href="{{ url_for('Distribution') }}">Distribution</a>
+<a href="{{ url_for('Volunteering') }}">Volunteers</a>
+<a href="{{ url_for('Donate_to_needy') }}">Food Requests</a>
+<a href="{{ url_for('Reports') }}">Reports</a>
+<a href="{{ url_for('logout') }}">Logout</a>
+</nav>
+<main class="container">
+{% for category, message in get_flashed_messages(with_categories=true) %}
+<div class="message {{ category }}">{{ message }}</div>
+{% endfor %}
+<section class="panel">
+<h2>Add Food Donation</h2>
+<form method="POST" class="form-grid">
+<label>Donor name<input name="donor" required></label>
+<label>Food name/type<input name="food_name" required placeholder="Rice, vegetables, meals..."></label>
+<label>Quantity<input type="number" name="quantity" min="1" required></label>
+<label>Unit<select name="unit" required><option value="meals">Meals</option><option value="kg">Kilograms</option><option value="packets">Packets</option><option value="boxes">Boxes</option></select></label>
+<label>Pickup location<input name="location" required></label>
+<label>Contact phone<input name="phone" type="tel" required></label>
+<label>Best-before / expiry date<input name="expiry" type="date" required></label>
+<button type="submit">Save Donation</button>
+</form>
+</section>
+<section class="panel">
+<h2>Donation Records</h2>
+<input id="tableSearch" placeholder="Search donations...">
+<div class="table-wrap">
+<table id="dataTable">
+<thead><tr><th>ID</th><th>Donor</th><th>Food</th><th>Quantity</th><th>Location</th><th>Expiry</th><th>Status</th></tr></thead>
+<tbody>
+{% for item in records %}
+<tr><td>{{ item.id }}</td><td>{{ item.donor }}</td><td>{{ item.food_name }}</td><td>{{ item.quantity }} {{ item.unit }}</td><td>{{ item.location }}</td><td>{{ item.expiry }}</td><td>{{ item.status }}</td></tr>
+{% else %}
+<tr><td colspan="7">No food donations recorded.</td></tr>
+{% endfor %}
+</tbody>
+</table>
+</div>
+</section>
+</main>
+<script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>

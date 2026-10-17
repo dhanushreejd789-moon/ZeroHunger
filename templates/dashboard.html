@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard | Zero Hunger</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+<header class="dashboard-header">
+    <div>
+        <h1>🌱 Zero Hunger</h1>
+        <p>Food Donation and Distribution Management System</p>
+    </div>
+    <div class="welcome-user">
+        Welcome, {{ session.get('username', 'User') }}!
+    </div>
+</header>
+
+<nav>
+    <a class="active" href="{{ url_for('dashboard') }}">Dashboard</a>
+    <a href="{{ url_for('donations') }}">Food Donations</a>
+    <a href="{{ url_for('Distribution') }}">Distribution</a>
+    <a href="{{ url_for('Volunteering') }}">Volunteers</a>
+    <a href="{{ url_for('Donate_to_needy') }}">Food Requests</a>
+    <a href="{{ url_for('Reports') }}">Reports</a>
+    <a href="{{ url_for('logout') }}">Logout</a>
+</nav>
+
+<main class="container dashboard">
+
+    {% for category, message in get_flashed_messages(with_categories=true) %}
+        <div class="message {{ category }}">{{ message }}</div>
+    {% endfor %}
+
+    <section class="hero-banner">
+        <div>
+            <p class="eyebrow">TOGETHER AGAINST HUNGER</p>
+            <h2>Welcome to your dashboard!</h2>
+            <p>Every food donation can make a difference in someone's life.</p>
+            <a class="hero-button" href="{{ url_for('donations') }}">
+                + Add Food Donation
+            </a>
+        </div>
+        <div class="hero-emoji" aria-hidden="true">🥗</div>
+    </section>
+
+    <section class="dashboard-section">
+        <h2>Project Overview</h2>
+        <p class="section-description">A quick look at your food donation activities.</p>
+
+        <div class="stats">
+            <article class="stat stat-green">
+                <span class="stat-icon">🍱</span>
+                <p class="stat-label">Total Donations</p>
+                <h3>{{ stats.donations }}</h3>
+            </article>
+
+            <article class="stat stat-orange">
+                <span class="stat-icon">📦</span>
+                <p class="stat-label">Available Donations</p>
+                <h3>{{ stats.available }}</h3>
+            </article>
+
+            <article class="stat stat-blue">
+                <span class="stat-icon">🤝</span>
+                <p class="stat-label">Registered Volunteers</p>
+                <h3>{{ stats.volunteers }}</h3>
+            </article>
+
+            <article class="stat stat-purple">
+                <span class="stat-icon">❤️</span>
+                <p class="stat-label">Food Requests</p>
+                <h3>{{ stats.requests }}</h3>
+            </article>
+        </div>
+    </section>
+
+    <section class="dashboard-section">
+        <h2>Quick Actions</h2>
+        <div class="quick-actions">
+            <a class="action-card" href="{{ url_for('donations') }}">
+                <span>🍲</span>
+                <strong>Donate Food</strong>
+                <small>Record surplus food</small>
+            </a>
+
+            <a class="action-card" href="{{ url_for('Distribution') }}">
+                <span>🚚</span>
+                <strong>Distribute Food</strong>
+                <small>Record food deliveries</small>
+            </a>
+
+            <a class="action-card" href="{{ url_for('Volunteering') }}">
+                <span>🙋</span>
+                <strong>Volunteers</strong>
+                <small>Register helpers</small>
+            </a>
+
+            <a class="action-card" href="{{ url_for('Donate_to_needy') }}">
+                <span>💚</span>
+                <strong>Food Assistance</strong>
+                <small>View assistance requests</small>
+            </a>
+        </div>
+    </section>
+
+    <section class="dashboard-section recent-section">
+        <div class="section-heading">
+            <div>
+                <h2>Recent Donations</h2>
+                <p class="section-description">Latest food donation records</p>
+            </div>
+            <a href="{{ url_for('donations') }}">View all →</a>
+        </div>
+
+        <div class="table-wrap">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Food Item</th>
+                        <th>Quantity</th>
+                        <th>Pickup Location</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for item in recent %}
+                    <tr>
+                        <td>{{ item.food_name }}</td>
+                        <td>{{ item.quantity }} {{ item.unit }}</td>
+                        <td>{{ item.location }}</td>
+                        <td><span class="status-label">{{ item.status }}</span></td>
+                    </tr>
+                    {% else %}
+                    <tr>
+                        <td colspan="4" class="empty-state">
+                            No donations yet. Add your first food donation!
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+    <footer class="dashboard-footer">
+        <p>Zero Hunger — Reducing food waste, supporting communities.</p>
+    </footer>
+
+</main>
+
+<script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>
